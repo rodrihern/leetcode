@@ -27,9 +27,6 @@ class Solution {
                 groupFreqs.get(group).merge(target[i], 1, (x, y) -> x - y);
             }
         }
-
-        
-        
         
         return distance;
     }
