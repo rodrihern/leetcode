@@ -1,5 +1,3 @@
-package minimumHammingDistance;
-
 public class UnionFind {
     int[] parent;
     int[] rank;

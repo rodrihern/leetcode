@@ -1,4 +1,3 @@
-package minimumHammingDistance;
 import java.util.HashMap;
 import java.util.Map;
 

@@ -1,6 +1,6 @@
-
 from typing import List
 from collections import defaultdict
+
 class UnionFind:
     def __init__(self, n):
         self.parent = [i for i in range(n)]
