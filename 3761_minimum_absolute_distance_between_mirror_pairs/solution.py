@@ -17,4 +17,3 @@ def minMirrorPairDistance(nums: List[int]) -> int:
     
     return res  
 
-print(minMirrorPairDistance([12,21,45,33,54]))

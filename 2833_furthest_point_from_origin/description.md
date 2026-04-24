@@ -33,7 +33,7 @@ Return _the **distance from the origin** of the **furthest** point you can get t
 
 **Explanation:** The furthest point we can reach from the origin 0 is point 7 through the following sequence of moves "RRRRRRR".
 
-**Constraints:**
+## Constraints:
 
 -   `1 <= moves.length == n <= 50`
 -   `moves` consists only of characters `'L'`, `'R'` and `'_'`.
