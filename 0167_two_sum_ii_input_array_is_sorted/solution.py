@@ -28,5 +28,3 @@ class Solution:
 
 
 
-sol = Solution()
-print(sol.twoSum([1, 5, 6], 3))
