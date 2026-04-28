@@ -14,7 +14,7 @@ class Solution:
 
         m, n = len(grid), len(grid[0])
         stack = [(0, 0)]
-        visited = {(0, 0)}
+        visited = [[False] * n for _ in range(m)]
 
         while stack:
             i, j = stack.pop()
@@ -28,14 +28,14 @@ class Solution:
                 if not (0 <= ni < m and 0 <= nj < n):
                     continue
 
-                if (ni, nj) in visited:
+                if visited[ni][nj]:
                     continue
 
                 # Neighbor must have the opposite direction back to current cell.
                 if (-di, -dj) not in directions[grid[ni][nj]]:
                     continue
 
-                visited.add((ni, nj))
+                visited[ni][nj] = True
                 stack.append((ni, nj))
 
         return False
