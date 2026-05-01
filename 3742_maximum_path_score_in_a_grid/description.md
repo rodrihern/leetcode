@@ -24,7 +24,7 @@ Return the **maximum** score achievable without exceeding a total cost of `k`, o
 
 The optimal path is:
 
-| Cell | grid\\[i\\]\\[j\\] | Score | Total Score | Cost | Total Cost |
+| Cell | grid\[i\]\[j\] | Score | Total Score | Cost | Total Cost |
 | --- | --- | --- | --- | --- | --- |
 | (0, 0) | 0   | 0   | 0   | 0   | 0   |
 | (1, 0) | 2   | 2   | 2   | 1   | 1   |
