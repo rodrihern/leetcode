@@ -6,6 +6,12 @@
 
 bool canMeasureWater(int x, int y, int target);
 
+typedef struct {
+    int jug1;
+    int jug2;
+    const char *action;
+} Step;
+
 
 int main(int argc, char * argv[]) {
     // parse args
@@ -32,7 +38,7 @@ int main(int argc, char * argv[]) {
 }
 
 
-bool canMeasure(int jug1, int jug2, int x, int y, int target, bool visited[][y+1]) {
+bool canMeasure(int jug1, int jug2, int x, int y, int target, bool visited[][y+1], Step path[], int *path_len) {
     // check if visited
     if (visited[jug1][jug2]) {
         return false;
@@ -41,41 +47,41 @@ bool canMeasure(int jug1, int jug2, int x, int y, int target, bool visited[][y+1
 
     // check for solution
     if (jug1 == target || jug2 == target || jug1 + jug2 == target) {
-        printf("(%d, %d)\tDone!\n", jug1, jug2);
+        path[(*path_len)++] = (Step){jug1, jug2, "Done!"};
         return true;
     }
 
     // apply each operation
 
     // 1. fill
-    if (canMeasure(x, jug2, x, y, target, visited)) {
-        printf("(%d, %d)\tfill\t1\n", jug1, jug2);
+    if (canMeasure(x, jug2, x, y, target, visited, path, path_len)) {
+        path[(*path_len)++] = (Step){jug1, jug2, "fill\t1"};
         return true;
     }
-    if (canMeasure(jug1, y, x, y, target, visited)) {
-        printf("(%d, %d)\tfill\t2\n", jug1, jug2);
+    if (canMeasure(jug1, y, x, y, target, visited, path, path_len)) {
+        path[(*path_len)++] = (Step){jug1, jug2, "fill\t2"};
         return true;
     }
 
     // 2. empty
-    if (canMeasure(0, jug2, x, y, target, visited)) {
-        printf("(%d, %d)\tempty\t1\n", jug1, jug2);
+    if (canMeasure(0, jug2, x, y, target, visited, path, path_len)) {
+        path[(*path_len)++] = (Step){jug1, jug2, "empty\t1"};
         return true;
     }
-    if (canMeasure(jug1, 0, x, y, target, visited)) {
-        printf("(%d, %d)\tempty\t2\n", jug1, jug2);
+    if (canMeasure(jug1, 0, x, y, target, visited, path, path_len)) {
+        path[(*path_len)++] = (Step){jug1, jug2, "empty\t2"};
         return true;
     }
 
     // 3. pour
     int delta = min(jug1, y - jug2);
-    if (canMeasure(jug1 - delta, jug2 + delta, x, y, target, visited)) {
-        printf("(%d, %d)\tpour\t1->2\n", jug1, jug2);
+    if (canMeasure(jug1 - delta, jug2 + delta, x, y, target, visited, path, path_len)) {
+        path[(*path_len)++] = (Step){jug1, jug2, "pour\t1->2"};
         return true;
     }
     delta = min(jug2, x - jug1);
-    if (canMeasure(jug1 + delta, jug2 - delta, x, y, target, visited)) {
-        printf("(%d, %d)\tpour\t2->1\n", jug1, jug2);
+    if (canMeasure(jug1 + delta, jug2 - delta, x, y, target, visited, path, path_len)) {
+        path[(*path_len)++] = (Step){jug1, jug2, "pour\t2->1"};
         return true;
     }
 
@@ -84,6 +90,9 @@ bool canMeasure(int jug1, int jug2, int x, int y, int target, bool visited[][y+1
 
 bool canMeasureWater(int x, int y, int target) {
     bool visited[x + 1][y + 1];
+    int max_steps = (x + 1) * (y + 1);
+    Step *path = malloc(max_steps * sizeof(Step));
+    int path_len = 0;
 
     for (int i = 0; i <= x; i++) {
         for (int j = 0; j <= y; j++) {
@@ -91,7 +100,16 @@ bool canMeasureWater(int x, int y, int target) {
         }
     }
 
-    return canMeasure(0, 0, x, y, target, visited);
+    bool solved = canMeasure(0, 0, x, y, target, visited, path, &path_len);
+
+    if (solved) {
+        for (int i = path_len - 1; i >= 0; i--) {
+            printf("(%d, %d)\t%s\n", path[i].jug1, path[i].jug2, path[i].action);
+        }
+    }
+
+    free(path);
+
+    return solved;
 
 }
-
